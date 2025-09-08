@@ -1,3 +1,4 @@
+import { SiteHeader } from "@/components/header";
 import { ThemeProvider } from "@/components/theme/provider";
 import { allFonts } from "@/lib/fonts/default";
 import "@/styles/globals.css";
@@ -21,9 +22,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+  modal,
+}: {
   children: React.ReactNode;
-}>) {
+  modal: React.ReactNode;
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${allFonts}`}>
@@ -33,8 +36,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <header />
+          <SiteHeader />
           {children}
+          {modal}
         </ThemeProvider>
       </body>
     </html>

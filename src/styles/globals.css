@@ -127,11 +127,14 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-open-sans min-h-screen w-full [--header-height:calc(--spacing(14))] antialiased;
+    @apply bg-background text-foreground font-open-sans flex flex-col min-h-dvh w-dvw [--header-height:calc(--spacing(14))] antialiased;
+  }
+  main {
+    @apply flex-1;
   }
   header {
     height: var(--header-height);
-    @apply sticky top-0 z-50 mx-auto;
+    @apply sticky top-0 z-50;
   }
 }
 
