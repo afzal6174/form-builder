@@ -27,9 +27,9 @@ const handleSubmit = (data) => console.log("Submitted data: ", data);
 const DemoForm = () => {
   return (
     <Form
-      name="form-1"
+      name="demo-form"
       onSubmit={handleSubmit}
-      className="max-w-xl mx-auto bg-muted/50 p-6 rounded-lg my-4 shadow-lg"
+      className="max-w-xl mx-auto bg-card p-6 rounded-lg my-4 shadow-lg"
     >
       {(form) => (
         <>

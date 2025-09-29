@@ -1,5 +1,10 @@
 import * as React from "react";
-import { FieldValues, UseFormProps, UseFormReturn } from "react-hook-form";
+import {
+  FieldValues,
+  GlobalError,
+  UseFormProps,
+  UseFormReturn,
+} from "react-hook-form";
 
 export type FormContextValue<
   TFieldValues extends FieldValues = FieldValues,
@@ -27,4 +32,8 @@ export type FormTitleProps = React.ComponentProps<"h2">;
 
 export type FormDescriptionProps = React.ComponentProps<"p">;
 
-export type FormErrorProps = React.ComponentProps<"p">;
+export type FormErrorProps = React.ComponentProps<"p"> & {
+  children?:
+    | React.ReactNode
+    | ((error: Record<string, GlobalError> & GlobalError) => React.ReactNode);
+};

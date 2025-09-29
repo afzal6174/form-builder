@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils/tailwind";
+import { CircleAlert } from "lucide-react";
 import * as React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import {
@@ -8,7 +9,6 @@ import {
   FormContextValue,
   FormDescriptionProps,
   FormErrorProps,
-  FormProps,
   FormTitleProps,
 } from "./form.types";
 
@@ -30,7 +30,7 @@ const Form: Form = ({
   children,
   className,
   ...props
-}: FormProps) => {
+}) => {
   if (!formName) {
     throw new Error("Form 'name' prop is required");
   }
@@ -94,21 +94,28 @@ function FormDescription({ className, ...props }: FormDescriptionProps) {
   );
 }
 
-function FormError({ className, ...props }: FormErrorProps) {
-  const { formName, formState } = useFormContext();
-  const error = formState?.errors?.root;
+function FormError({ className, children, ...props }: FormErrorProps) {
+  const {
+    formName,
+    formState: {
+      errors: { root: error },
+    },
+  } = useFormContext();
 
-  const body = error ? String(error?.message ?? "") : props.children;
-
-  if (!body) {
-    return null;
-  }
+  if (!error) return;
+  const child = typeof children === "function" ? children(error) : children;
+  const body = child ?? (
+    <>
+      <CircleAlert />
+      {String(error?.message ?? "")}
+    </>
+  );
 
   return (
     <p
       data-slot="form-message"
       id={`${formName}-message`}
-      className={cn("text-sm text-destructive ", className)}
+      className={cn("text-sm text-destructive flex gap-2", className)}
       role="alert"
       aria-live="polite"
       aria-atomic="true"

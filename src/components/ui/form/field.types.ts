@@ -1,10 +1,13 @@
 import * as LabelPrimitive from "@radix-ui/react-label";
 import * as React from "react";
 import {
+  FieldError,
   FieldPath,
   FieldValues,
   UseControllerProps,
   UseControllerReturn,
+  UseFieldArrayProps,
+  UseFieldArrayReturn,
 } from "react-hook-form";
 
 export type FieldProps<
@@ -42,8 +45,17 @@ export type FieldContextValue<
 
 export type Field = (props: FieldProps) => React.JSX.Element;
 
+export type FieldArrayProps = UseFieldArrayProps & {
+  children?:
+    | React.ReactNode
+    | ((fieldArray: UseFieldArrayReturn) => React.ReactNode);
+};
+export type FieldArray = (props: FieldArrayProps) => React.JSX.Element;
+
 export type FieldLabelProps = React.ComponentProps<typeof LabelPrimitive.Root>;
 
 export type FieldDescriptionProps = React.ComponentProps<"p">;
 
-export type FieldErrorProps = React.ComponentProps<"p">;
+export type FieldErrorProps = React.ComponentProps<"p"> & {
+  children?: React.ReactNode | ((error: FieldError) => React.ReactNode);
+};

@@ -2,9 +2,9 @@ import Link from "next/link";
 
 const Logo = () => {
   return (
-    <div className="font-bold text-3xl">
-      <Link href="/">Form Builder</Link>
-    </div>
+    <Link href="/" className="heading-1 text-3xl text-nowrap overflow-hidden">
+      Form Builder
+    </Link>
   );
 };
 

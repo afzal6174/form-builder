@@ -1,16 +1,17 @@
 "use client";
 
 import { cn } from "@/lib/utils/tailwind";
+import { CircleAlert } from "lucide-react";
 import * as React from "react";
-import { useController } from "react-hook-form";
+import { useController, useFieldArray } from "react-hook-form";
 import { Label } from "../label";
 import {
   type Field,
+  type FieldArray,
   FieldContextValue,
   FieldDescriptionProps,
   FieldErrorProps,
   FieldLabelProps,
-  FieldProps,
 } from "./field.types";
 import { useFormContext } from "./form";
 
@@ -18,7 +19,7 @@ const FieldContext = React.createContext<FieldContextValue>(
   {} as FieldContextValue
 );
 
-const Field: Field = ({ className, children, ...props }: FieldProps) => {
+const Field: Field = ({ className, children, ...props }) => {
   const { formName } = useFormContext();
 
   const controllerState = useController({
@@ -72,6 +73,15 @@ const Field: Field = ({ className, children, ...props }: FieldProps) => {
   );
 };
 
+const FieldArray: FieldArray = ({ children, ...props }) => {
+  const { control } = useFormContext();
+  const fieldArray = useFieldArray({ control, ...props });
+  const child =
+    typeof children === "function" ? children(fieldArray) : children;
+
+  return <>{child}</>;
+};
+
 const useFieldContext = () => {
   const context = React.useContext(FieldContext);
   if (!context) {
@@ -110,22 +120,26 @@ function FieldDescription({ className, ...props }: FieldDescriptionProps) {
   );
 }
 
-function FieldError({ className, ...props }: FieldErrorProps) {
+function FieldError({ className, children, ...props }: FieldErrorProps) {
   const {
     fieldState: { error },
     ids: { fieldErrorId },
   } = useFieldContext();
 
-  const body = error ? String(error?.message ?? "") : props.children;
-  if (!body) {
-    return null;
-  }
+  if (!error) return;
+  const child = typeof children === "function" ? children(error) : children;
+  const body = child ?? (
+    <>
+      <CircleAlert className="size-4" />
+      {String(error?.message ?? "")}
+    </>
+  );
 
   return (
     <p
       data-slot="field-error"
       id={fieldErrorId}
-      className={cn("text-destructive text-sm", className)}
+      className={cn("text-destructive text-sm flex gap-2", className)}
       role="alert"
       aria-live="polite"
       aria-atomic="true"
@@ -136,4 +150,11 @@ function FieldError({ className, ...props }: FieldErrorProps) {
   );
 }
 
-export { Field, FieldDescription, FieldError, FieldLabel, useFieldContext };
+export {
+  Field,
+  FieldArray,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  useFieldContext,
+};
