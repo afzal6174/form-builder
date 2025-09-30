@@ -1,8 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { SignUpButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import Link from "next/link";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { useRef } from "react";
 import Logo from "./header/logo";
@@ -41,13 +46,17 @@ export function Header(props) {
         <ThemeToggle />
         {!["/sign-in", "/sign-up"].includes(pathname) && (
           <SignedOut>
-            <Button variant="ghost" asChild>
-              <Link href="/sign-in">Sign in</Link>
-            </Button>
+            <SignInButton>
+              <Button variant="ghost">
+                Sign in
+                {/* <Link href="/sign-in">Sign in</Link> */}
+              </Button>
+            </SignInButton>
 
             <SignUpButton>
-              <Button asChild>
-                <Link href="/sign-up">Sign up</Link>
+              <Button>
+                Sign up
+                {/* <Link href="/sign-up">Sign up</Link> */}
               </Button>
             </SignUpButton>
           </SignedOut>
