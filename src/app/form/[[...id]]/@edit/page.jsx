@@ -329,7 +329,7 @@ export default function FormEditor() {
 
                       <Field
                         name={`questions.${qIndex}.label`}
-                        defaultValue="Untitled Question"
+                        defaultValue={`Untitled Question ${qIndex + 1}`}
                       >
                         {({ field, accessibility }) => (
                           <>
